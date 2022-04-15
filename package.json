@@ -1,0 +1,14 @@
+{
+  "name": "hexschool-nodejs-posts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "author": "andy-lien",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^6.3.0"
+  }
+}
