@@ -1,6 +1,6 @@
 const http = require('http')
 require('dotenv').config()
-const port = process.env.port || 8080
+const port = process.env.PORT || 8080
 const { connections: { resGenerator, errorHandler }} = require('./mixin')
 const resHeader = {
     "Access-Control-Allow-Headers": 'Content-Type, Authorization, Content-Length, X-Requested-With',
