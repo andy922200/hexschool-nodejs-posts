@@ -5,13 +5,19 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 const port = process.env.port || 8080
 
+/* require config */
+require('dotenv').config()
+
 /* connect to mongoDB */
 const mongoose = require('mongoose');
-const mongoDbUrl = process.env.mongoDbUrl || 'localhost'
-const mongoDbPort = process.env.mongoDbPort || '27017'
-const dbName = "social_network"
+const mongoDbLocalPort = process.env.mongoDbLocalPort || '27017'
+const dbName = "socialNetwork"
+const localUrl = `mongodb://localhost:${mongoDbLocalPort}/${dbName}`
+const remoteUrl = `mongodb+srv://${process.env.account}:${process.env.password}@cluster0.5mk4u.mongodb.net/${dbName}?retryWrites=true&w=majority`
+const dbUrl = process.env.dbRemote ? remoteUrl : localUrl
+console.log('dburl', dbUrl)
 mongoose
-    .connect(`mongodb://${mongoDbUrl}:${mongoDbPort}/${dbName}`)
+    .connect(dbUrl)
     .then(() => console.log('資料庫連接成功'))
     .catch(() => console.log('資料庫連接錯誤'))
 
