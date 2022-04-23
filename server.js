@@ -120,22 +120,24 @@ const requestListener = (req, res)=>{
 
                         if (data) {
                             if (id) {
-                                await Post.findByIdAndUpdate(id,{
+                                const result = await Post.findByIdAndUpdate(id,{
                                     content: data.content,
                                     image: data.image,
                                     name: data.name,
                                 })
-                                resGenerator({
-                                    res,
-                                    resHeader,
-                                    statusCode: 200,
-                                    callback: () => {
-                                        res.write(JSON.stringify({
-                                            status: 'success',
-                                            message: 'The post is updated successfully'
-                                        }))
-                                    }
-                                })
+                                if(result){
+                                    resGenerator({
+                                        res,
+                                        resHeader,
+                                        statusCode: 200,
+                                        callback: () => {
+                                            res.write(JSON.stringify({
+                                                status: 'success',
+                                                message: 'The post is updated successfully'
+                                            }))
+                                        }
+                                    })
+                                }
                             } else {
                                 errorHandler({
                                     res,
@@ -172,11 +174,13 @@ const requestListener = (req, res)=>{
                             const id = req.url.split('/posts/')[1]
 
                             if (id) {
-                                await Post.findByIdAndDelete(id)
-                                res.write(JSON.stringify({
-                                    status: 'success',
-                                    message: `The post ${id} is deleted successfully`
-                                }))
+                                const result = await Post.findByIdAndDelete(id)
+                                if(result){
+                                    res.write(JSON.stringify({
+                                        status: 'success',
+                                        message: `The post ${id} is deleted successfully`
+                                    }))
+                                }
                             } else {
                                 await Post.deleteMany({})
                                 resGenerator({
