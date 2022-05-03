@@ -2,12 +2,7 @@ const Post = require('../model/post_model')
 const {
     connections: { resGenerator, errorHandler }
 } = require('../mixin')
-const resHeader = {
-    "Access-Control-Allow-Headers": 'Content-Type, Authorization, Content-Length, X-Requested-With',
-    "Access-Control-Allow-Origin": '*',
-    "Access-Control-Allow-Methods": 'PATCH, POST, GET, OPTIONS, DELETE',
-    "content-type": "application/json"
-}
+const resHeader = require('../constants')
 
 const postController = {
     getPosts: (req, res)=>{
@@ -35,9 +30,12 @@ const postController = {
     },
     postOneNewPost: async (req, res)=>{
         try{
-            const { content, image, name } = req.body
+            const { content: rawContent, image, name: rawName } = req.body
+            const content = typeof rawContent === 'string' ? rawContent.trim(): ''
+            const name = typeof rawName === 'string' ? rawName.trim() : ''
+
             if (content && image && name ) {
-                await Post.create({
+                const result = await Post.create({
                     content,
                     image,
                     name,
@@ -49,6 +47,7 @@ const postController = {
                     callback: () => {
                         res.json({
                             status: 'success',
+                            data: result,
                             message: 'New Post is added successfully'
                         })
                     }
@@ -72,7 +71,9 @@ const postController = {
     },
     updateThePost: async (req, res)=>{
         try{
-            const { content, image, name } = req.body
+            const { content: rawContent, image, name: rawName } = req.body
+            const content = typeof rawContent === 'string' ? rawContent.trim() : ''
+            const name = typeof rawName === 'string' ? rawName.trim() : ''
             const postId = req.params.postId
 
             if (content && image && name) {
@@ -90,9 +91,17 @@ const postController = {
                             callback: () => {
                                 res.json({
                                     status: 'success',
+                                    data: result,
                                     message: 'The post is updated successfully'
                                 })
                             }
+                        }))
+                    }else{
+                        errorHandler.express(({
+                            res,
+                            resHeader,
+                            statusCode: null,
+                            errorMessage: `The post ${postId} is not existed or updated failed.`
                         }))
                     }
                 } else {
@@ -137,6 +146,13 @@ const postController = {
                                 message: `The post ${postId} is deleted successfully`
                             })
                         }
+                    }))
+                }else{
+                    errorHandler.express(({
+                        res,
+                        resHeader,
+                        statusCode: null,
+                        errorMessage: `The post ${postId} is not existed or deleted failed.`
                     }))
                 }
             }else{

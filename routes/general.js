@@ -1,11 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const resHeader = {
-    "Access-Control-Allow-Headers": 'Content-Type, Authorization, Content-Length, X-Requested-With',
-    "Access-Control-Allow-Origin": '*',
-    "Access-Control-Allow-Methods": 'PATCH, POST, GET, OPTIONS, DELETE',
-    "content-type": "application/json"
-}
+const resHeader = require('../constants')
 const {
     connections: { resGenerator, errorHandler }
 } = require('../mixin')
@@ -28,7 +23,7 @@ router.get('*', (req, res)=>{
     errorHandler.express(({
         res,
         resHeader,
-        statusCode: 200,
+        statusCode: 404,
         errorMessage: 'Invalid Route'
     }))
 })

@@ -14,7 +14,7 @@
     "dotenv": "^16.0.0",
     "mongoose": "^6.3.0"
   },
-  "engines":{
+  "engines": {
     "node": "14.x"
   }
 }
