@@ -2,12 +2,7 @@ const http = require('http')
 require('dotenv').config()
 const port = process.env.PORT || 8080
 const { connections: { resGenerator, errorHandler }} = require('./mixin')
-const resHeader = {
-    "Access-Control-Allow-Headers": 'Content-Type, Authorization, Content-Length, X-Requested-With',
-    "Access-Control-Allow-Origin": '*',
-    "Access-Control-Allow-Methods": 'PATCH, POST, GET, OPTIONS, DELETE',
-    "content-type": "application/json"
-}
+const { resHeader } = require('./constants') 
 
 /* connect to mongoDB */
 const mongoose = require('mongoose');
@@ -82,28 +77,40 @@ const requestListener = (req, res)=>{
                     try {
                         const data = JSON.parse(body)
                         if (data) {
-                            await Post.create({
-                                content: data.content,
-                                image: data.image,
-                                name: data.name,
-                            })
-                            resGenerator({
-                                res,
-                                resHeader,
-                                statusCode: 200,
-                                callback: () => {
-                                    res.write(JSON.stringify({
-                                        status: 'success',
-                                        message: 'New Post is added successfully'
-                                    }))
-                                }
-                            })
+                            const content = typeof data.content === 'string' ? data.content.trim(): ''
+                            const name = typeof data.name === 'string' ? data.name.trim() : ''
+
+                            if(content && name){
+                                await Post.create({
+                                    content,
+                                    image: data.image,
+                                    name,
+                                })
+                                resGenerator({
+                                    res,
+                                    resHeader,
+                                    statusCode: 200,
+                                    callback: () => {
+                                        res.write(JSON.stringify({
+                                            status: 'success',
+                                            message: 'New Post is added successfully'
+                                        }))
+                                    }
+                                })
+                            }else{
+                                errorHandler({
+                                    res,
+                                    resHeader,
+                                    statusCode: null,
+                                    errorMessage: "Missing required values"
+                                })
+                            }
                         } else {
                             errorHandler({
                                 res,
                                 resHeader,
                                 statusCode: null,
-                                errorMessage: "Missing required values"
+                                errorMessage: "Please check your input."
                             })
                         }
                     } catch (err) {
@@ -124,23 +131,35 @@ const requestListener = (req, res)=>{
 
                         if (data) {
                             if (id) {
-                                const result = await Post.findByIdAndUpdate(id,{
-                                    content: data.content,
-                                    image: data.image,
-                                    name: data.name,
-                                })
-                                if(result){
-                                    resGenerator({
-                                        res,
-                                        resHeader,
-                                        statusCode: 200,
-                                        callback: () => {
-                                            res.write(JSON.stringify({
-                                                status: 'success',
-                                                message: 'The post is updated successfully'
-                                            }))
-                                        }
+                                const content = typeof data.content === 'string' ? data.content.trim() : ''
+                                const name = typeof data.name === 'string' ? data.name.trim() : ''
+                                if(content && name){
+                                    const result = await Post.findByIdAndUpdate(id, {
+                                        content,
+                                        image: data.image,
+                                        name,
                                     })
+                                    if (result) {
+                                        resGenerator({
+                                            res,
+                                            resHeader,
+                                            statusCode: 200,
+                                            callback: () => {
+                                                res.write(JSON.stringify({
+                                                    status: 'success',
+                                                    data: result,
+                                                    message: 'The post is updated successfully'
+                                                }))
+                                            }
+                                        })
+                                    } else {
+                                        errorHandler({
+                                            res,
+                                            resHeader,
+                                            statusCode: null,
+                                            errorMessage: "Update error."
+                                        })
+                                    }
                                 }
                             } else {
                                 errorHandler({
