@@ -7,43 +7,47 @@ const {
 const resHeader = require('../constants')
 
 const postController = {
-    getPosts: (req, res)=>{
-        resGenerator.express({
-            res,
-            resHeader,
-            statusCode: 200,
-            callback: async () => {
-                try {
-                    const timeSort = req.query.timeSort === "asc" ? "createdAt" : "-createdAt"
-                    const queryString = req.query.q !== undefined
-                            ? { "content": new RegExp(req.query.q.trim()) } 
-                            : {}
-                    const allPosts = await Post.find(queryString).populate({
-                        path: 'user',
-                        select: 'name photo'
-                    }).sort(timeSort)
+    getPosts: async (req, res)=>{
+        try{
+            const timeSort = req.query.timeSort === "asc" ? "createdAt" : "-createdAt"
+            const queryString = req.query.q !== undefined
+                ? { "content": new RegExp(req.query.q.trim()) }
+                : {}
+            const allPosts = await Post.find(queryString).populate({
+                path: 'user',
+                select: 'name photo'
+            }).sort(timeSort)
 
-                    resGenerator.express({
-                        res,
-                        resHeader,
-                        statusCode: 200,
-                        callback: () => {
-                            res.json({
-                                status: 'success',
-                                data: allPosts
-                            })
-                        }
-                    })
-                } catch (err) {
-                    errorHandler.express(({
-                        res,
-                        resHeader,
-                        statusCode: null,
-                        errorMessage: "Error Happened! Please try again later."
-                    }))
+            resGenerator.express({
+                res,
+                resHeader,
+                statusCode: 200,
+                callback: async () => {
+                    try {
+                        resGenerator.express({
+                            res,
+                            resHeader,
+                            statusCode: 200,
+                            callback: () => {
+                                res.json({
+                                    status: 'success',
+                                    data: allPosts
+                                })
+                            }
+                        })
+                    } catch (err) {
+                        errorHandler.express(({
+                            res,
+                            resHeader,
+                            statusCode: null,
+                            errorMessage: "Error Happened! Please try again later."
+                        }))
+                    }
                 }
-            }
-        })
+            })
+        }catch(err){
+            console.log(err)
+        }
     },
     postOneNewPost: async (req, res)=>{
         try{

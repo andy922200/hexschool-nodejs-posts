@@ -4,7 +4,7 @@ function initMongoDB(dbName=''){
     const mongoDbLocalPort = process.env.mongoDbLocalPort || '27017'
     const localUrl = `mongodb://localhost:${mongoDbLocalPort}/${dbName}`
     const remoteUrl = `mongodb+srv://${process.env.account}:${process.env.password}@cluster0.5mk4u.mongodb.net/${dbName}?retryWrites=true&w=majority`
-    const dbUrl = process.env.dbRemote ? remoteUrl : localUrl
+    const dbUrl = process.env.dbRemote === 'true' ? remoteUrl : localUrl
     console.log('dburl', dbUrl)
 
     mongoose
