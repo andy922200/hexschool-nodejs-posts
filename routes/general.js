@@ -1,11 +1,12 @@
 const express = require('express')
 const router = express.Router()
-const resHeader = require('../constants')
 const {
-    connections: { resGenerator, errorHandler }
+    connections: { resGenerator }
 } = require('../mixin')
+const { appError } = require('../utils/errorHandler')
+const resHeader = require('../constants')
 
-router.get('/', (req, res)=>{
+router.get('/', (req, res, next)=>{
     resGenerator.express({
         res,
         resHeader,
@@ -19,13 +20,8 @@ router.get('/', (req, res)=>{
     })
 })
 
-router.get('*', (req, res)=>{
-    errorHandler.express(({
-        res,
-        resHeader,
-        statusCode: 404,
-        errorMessage: 'Invalid Route'
-    }))
+router.get('*', (req, res, next)=>{
+    next(appError(404, "", 'Invalid Route', next))
 })
 
 module.exports = router
