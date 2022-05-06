@@ -1,4 +1,6 @@
+/* require related DB Model*/
 const Post = require('../model/post_model')
+const User = require('../model/user_model')
 const {
     connections: { resGenerator, errorHandler }
 } = require('../mixin')
@@ -12,10 +14,25 @@ const postController = {
             statusCode: 200,
             callback: async () => {
                 try {
-                    const allPosts = await Post.find()
-                    res.json({
-                        status: 'success',
-                        data: allPosts
+                    const timeSort = req.query.timeSort === "asc" ? "createdAt" : "-createdAt"
+                    const queryString = req.query.q !== undefined
+                            ? { "content": new RegExp(req.query.q.trim()) } 
+                            : {}
+                    const allPosts = await Post.find(queryString).populate({
+                        path: 'user',
+                        select: 'name photo'
+                    }).sort(timeSort)
+
+                    resGenerator.express({
+                        res,
+                        resHeader,
+                        statusCode: 200,
+                        callback: () => {
+                            res.json({
+                                status: 'success',
+                                data: allPosts
+                            })
+                        }
                     })
                 } catch (err) {
                     errorHandler.express(({
@@ -30,15 +47,22 @@ const postController = {
     },
     postOneNewPost: async (req, res)=>{
         try{
-            const { content: rawContent, image, name: rawName } = req.body
+            const { 
+                content: rawContent, 
+                image, 
+                name: rawName,
+                userId: rawUserId 
+            } = req.body
             const content = typeof rawContent === 'string' ? rawContent.trim(): ''
             const name = typeof rawName === 'string' ? rawName.trim() : ''
+            const userId = typeof rawUserId === 'string' ? rawUserId : ''
 
-            if (content && image && name ) {
+            if (content && image && name && userId) {
                 const result = await Post.create({
                     content,
                     image,
                     name,
+                    user: userId
                 })
                 resGenerator.express({
                     res,
