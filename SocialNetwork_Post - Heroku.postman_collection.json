@@ -11,12 +11,22 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/posts",
+					"raw": "{{base_url}}/posts?timeSort=asc&q=John",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"posts"
+					],
+					"query": [
+						{
+							"key": "timeSort",
+							"value": "asc"
+						},
+						{
+							"key": "q",
+							"value": "John"
+						}
 					]
 				}
 			},
@@ -29,7 +39,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"content\":\"Post AE3\",\r\n    \"image\": \"\",\r\n    \"name\": \"Name 3\"\r\n}",
+					"raw": "{\r\n    \"content\":\"Post Content John 20220505-2\",\r\n    \"image\": \"https://picsum.photos/300/200?random=1\",\r\n    \"name\": \"John\",\r\n    \"userId\": \"6274af1ad15698e2ce14685a\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -152,7 +162,7 @@
 	"variable": [
 		{
 			"key": "base_url",
-			"value": "https://hexschool-posts-20220420.herokuapp.com",
+			"value": "https://hexschool-nodejs-posts.herokuapp.com",
 			"type": "string"
 		}
 	]
