@@ -1,9 +1,6 @@
 /* require related DB Model*/
 const Post = require('../model/post_model')
 const User = require('../model/user_model')
-const {
-    connections: { resGenerator }
-} = require('../mixin')
 const { appError } = require('../utils/errorHandler')
 const resHeader = require('../constants')
 
@@ -18,17 +15,14 @@ const postController = {
             select: 'name photo'
         }).sort(timeSort)
 
-        resGenerator.express({
-            res,
-            resHeader,
-            statusCode: 200,
-            callback: () => {
-                res.json({
-                    status: 'success',
-                    data: allPosts
-                })
-            }
-        })
+        res.status(200)
+            .set({
+                ...resHeader
+            })
+            .json({
+                status: 'success',
+                data: allPosts
+            })
     },
     postOneNewPost: async (req, res, next)=>{
         const { 
@@ -48,18 +42,16 @@ const postController = {
                 name,
                 user: userId
             })
-            resGenerator.express({
-                res,
-                resHeader,
-                statusCode: 200,
-                callback: () => {
-                    res.json({
-                        status: 'success',
-                        data: result,
-                        message: 'New Post is added successfully'
-                    })
-                }
-            })
+            
+            res.status(200)
+                .set({
+                    ...resHeader
+                })
+                .json({
+                    status: 'success',
+                    data: result,
+                    message: 'New Post is added successfully'
+                })
         } else {
             next(appError(400, "ValidationError","Missing Required Values", next))
         }
@@ -78,18 +70,15 @@ const postController = {
                     name,
                 })
                 if(result){
-                    resGenerator.express(({
-                        res,
-                        resHeader,
-                        statusCode: 200,
-                        callback: () => {
-                            res.json({
-                                status: 'success',
-                                data: result,
-                                message: 'The post is updated successfully'
-                            })
-                        }
-                    }))
+                    res.status(200)
+                        .set({
+                            ...resHeader
+                        })
+                        .json({
+                            status: 'success',
+                            data: result,
+                            message: 'The post is updated successfully'
+                        })
                 }else{
                     next(appError(400, "", `The post ${postId} is not existed or updated failed.`, next))
                 }
@@ -105,33 +94,27 @@ const postController = {
         if(postId){
             const result = await Post.findByIdAndDelete(postId)
             if(result){
-                resGenerator.express(({
-                    res,
-                    resHeader,
-                    statusCode: 200,
-                    callback: () => {
-                        res.json({
-                            status: 'success',
-                            message: `The post ${postId} is deleted successfully`
-                        })
-                    }
-                }))
+                res.status(200)
+                    .set({
+                        ...resHeader
+                    })
+                    .json({
+                        status: 'success',
+                        message: `The post ${postId} is deleted successfully`
+                    })
             }else{
                 next(appError(400, "",`The post ${postId} is not existed or deleted failed.`, next))
             }
         }else{
             await Post.deleteMany({})
-            resGenerator.express(({
-                res,
-                resHeader,
-                statusCode: 200,
-                callback: () => {
-                    res.json({
-                        status: 'success',
-                        message: 'Delete all posts successfully'
-                    })
-                }
-            }))
+            res.status(200)
+                .set({
+                    ...resHeader
+                })
+                .json({
+                    status: 'success',
+                    message: 'Delete all posts successfully'
+                })
         }
     }
 }

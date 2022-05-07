@@ -1,7 +1,3 @@
-const {
-    connections: { resGenerator }
-} = require('../mixin')
-
 // 自定義 error
 const appError = (statusCode, errName, errMessage, next) => {
     const error = new Error(errMessage)
@@ -24,46 +20,28 @@ const handleErrorAsync = function (func) {
 
 // Dev 環境下的錯誤 
 const resErrorDev = (err, res) => {
-    resGenerator.express({
-        res,
-        resHeader: null,
-        statusCode: err.statusCode,
-        callback: () => {
-            res.json({
-                message: err.message,
-                error: err,
-                stack: err.stack
-            })
-        }
-    })
+    res.status(err.statusCode)
+        .json({
+            message: err.message,
+            error: err,
+            stack: err.stack
+        })
 }
 
 // Prod 環境下，自己設定的 err 錯誤 
 const resErrorProd = (err, res) => {
     if (err.isOperational) {
-        resGenerator.express({
-            res,
-            resHeader: null,
-            statusCode: err.statusCode,
-            callback: () => {
-                res.json({
-                    message: err.message
-                })
-            }
-        })
+        res.status(err.statusCode)
+            .json({
+                message: err.message,
+            })
     } else {
         console.error('出現重大錯誤', err)
-        resGenerator.express({
-            res,
-            resHeader: null,
-            statusCode: err.statusCode,
-            callback: () => {
-                res.json({
-                    status: 'error',
-                    message: '系統錯誤，請洽系統管理員'
-                })
-            }
-        })
+        res.status(err.statusCode)
+            .json({
+                status: 'error',
+                message: '系統錯誤，請洽系統管理員'
+            })
     }
 }
 
