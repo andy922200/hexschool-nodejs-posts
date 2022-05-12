@@ -1,0 +1,188 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Post API",
+    "description": "Post API 示範文件"
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "tags": [],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [],
+  "produces": [],
+  "paths": {
+    "/posts/": {
+      "get": {
+        "tags": [
+          "Posts"
+        ],
+        "description": "取得全部貼文 API",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Get all posts successfully."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Posts"
+        ],
+        "description": "新增貼文",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "type": "object",
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Name"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "This is content"
+                },
+                "userId": {
+                  "type": "string",
+                  "example": "627ca72879a62b5adf921bff"
+                },
+                "image": {
+                  "type": "string",
+                  "example": "image"
+                }
+              },
+              "required": [
+                "name",
+                "content",
+                "userId",
+                "image"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post created successfully."
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Posts"
+        ],
+        "description": "刪除所有貼文",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Delete all posts updated successfully."
+          }
+        }
+      }
+    },
+    "/posts/{postId}": {
+      "patch": {
+        "tags": [
+          "Posts"
+        ],
+        "description": "更新特定一篇貼文",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "type": "object",
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Name"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "This is content"
+                },
+                "userId": {
+                  "type": "string",
+                  "example": "627ca72879a62b5adf921bff"
+                },
+                "image": {
+                  "type": "string",
+                  "example": "image"
+                }
+              },
+              "required": [
+                "name",
+                "content",
+                "userId",
+                "image"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post updated successfully."
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Posts"
+        ],
+        "description": "刪除特定一篇貼文",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete a post successfully."
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "tags": [
+          "Generals"
+        ],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/*": {
+      "get": {
+        "tags": [
+          "Generals"
+        ],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    }
+  },
+  "definitions": {}
+}

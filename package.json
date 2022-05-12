@@ -7,14 +7,17 @@
     "dev": "nodemon server.js",
     "start": "node server.js",
     "seed-up": "node seeds/userSeeder.js up && node seeds/postSeeder.js up",
-    "seed-down": "node seeds/userSeeder.js down && node seeds/postSeeder.js down"
+    "seed-down": "node seeds/userSeeder.js down && node seeds/postSeeder.js down",
+    "generate-swagger":"node swagger.js"
   },
   "author": "andy-lien",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.3",
     "dotenv": "^16.0.0",
-    "mongoose": "^6.3.0"
+    "express": "^4.17.3",
+    "mongoose": "^6.3.0",
+    "swagger-autogen": "^2.5.10",
+    "swagger-ui-express": "^4.3.0"
   },
   "engines": {
     "node": "14.x"

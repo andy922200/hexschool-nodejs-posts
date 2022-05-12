@@ -4,6 +4,9 @@ const { appError } = require('../utils/errorHandler')
 const resHeader = require('../constants')
 
 router.get('/', (req, res, next)=>{
+    /**
+    *  #swagger.tags = ['Generals']
+    */
     res.status(200)
         .set({
             ...resHeader
@@ -15,6 +18,9 @@ router.get('/', (req, res, next)=>{
 })
 
 router.get('*', (req, res, next)=>{
+    /**
+    *  #swagger.tags = ['Generals']
+    */
     next(appError(404, "", 'Invalid Route', next))
 })
 
