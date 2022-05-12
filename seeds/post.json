@@ -5,9 +5,7 @@
         "createdAt": "2022-04-08 08:02:43 UTC",
         "name":"John",
         "likes": 12,
-        "user":{
-            "$oid": "6274af1ad15698e2ce14685a"
-        }
+        "user":"6274af1ad15698e2ce14685a"
     },
     {
         "content": "Content Mary",
@@ -15,9 +13,7 @@
         "createdAt": "2022-03-08 08:02:43 UTC",
         "name": "Mary",
         "likes": 102,
-        "user": {
-            "$oid": "6274af1ad15698e2ce14685b"
-        }
+        "user": "6274af1ad15698e2ce14685b"
     },
     {
         "content": "Content Ada",
@@ -25,8 +21,6 @@
         "createdAt": "2022-05-06 08:02:43 UTC",
         "name": "Ada",
         "likes": 102,
-        "user": {
-            "$oid": "6274af1ad15698e2ce14685c"
-        }
+        "user": "6274af1ad15698e2ce14685c"
     }
 ]

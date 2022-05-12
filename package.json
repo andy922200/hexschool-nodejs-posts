@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "seed-up": "node seeds/userSeeder.js up && node seeds/postSeeder.js up",
+    "seed-down": "node seeds/userSeeder.js down && node seeds/postSeeder.js down"
   },
   "author": "andy-lien",
   "license": "ISC",

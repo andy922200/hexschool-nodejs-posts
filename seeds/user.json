@@ -1,24 +1,18 @@
 [
   {
-    "_id": {
-      "$oid": "6274af1ad15698e2ce14685a"
-    },
+    "_id": "6274af1ad15698e2ce14685a",
     "name": "John",
     "email": "yy342@gmail.com",
     "photo": "https://thumb.fakeface.rest/thumb_male_10_8c02e4e9bdc0e103530691acfca605f18caf1766.jpg"
   },
   {
-    "_id": {
-      "$oid": "6274af1ad15698e2ce14685b"
-    },
+    "_id":"6274af1ad15698e2ce14685b",
     "name": "Mary",
     "email": "mary0512@gmail.com",
     "photo": "https://thumb.fakeface.rest/thumb_female_30_8ab46617938c195cadf80bc11a96ce906a47c110.jpg"
   },
   {
-    "_id": {
-      "$oid": "6274af1ad15698e2ce14685c"
-    },
+    "_id": "6274af1ad15698e2ce14685c",    
     "name": "Ada",
     "email": "AdaWang@gmail.com",
     "photo": "https://thumb.fakeface.rest/thumb_female_27_5a94a297efb15caf0e3d769ce1694953e8bf33e2.jpg"
