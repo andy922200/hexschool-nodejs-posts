@@ -14,5 +14,16 @@ router.post('/sign_up',
     handleErrorAsync(userController.signUp)
 )
 
+router.post('/sign_in',
+    /**
+    *   #swagger.tags = ['Users']
+    *   #swagger.description = '使用者登入'
+    *   #swagger.responses[200] = { 
+            description: "User Login successfully." 
+        } 
+    */
+    handleErrorAsync(userController.signIn)
+)
+
 
 module.exports = router
