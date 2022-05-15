@@ -1,10 +1,11 @@
-/* require related DB Model*/
-const User = require('../model/user_model')
-const { appError } = require('../utils/errorHandler')
-const resHeader = require('../constants')
-const { stringChecker } = require('../utils/mixin')
 const validator = require('validator');
 const bcrypt = require('bcryptjs')
+/* require related DB Model*/
+const User = require('../model/user_model')
+const resHeader = require('../constants')
+const { appError } = require('../utils/errorHandler')
+const { stringChecker } = require('../utils/mixin')
+const { generateJwtToken } = require('../middleware/auth')
 
 const userController = {
     signUp: async (req, res, next) => {
@@ -37,6 +38,8 @@ const userController = {
             password
         })
 
+        const token = await generateJwtToken(newUser._id)
+
         res.status(200)
             .set({
                 ...resHeader
@@ -44,7 +47,10 @@ const userController = {
             .json({
                 status: 'success',
                 data: {
-                    name: newUser.name
+                    user:{
+                        name: newUser.name,
+                        token
+                    }
                 },
                 message: 'Register a new user successfully'
             })
