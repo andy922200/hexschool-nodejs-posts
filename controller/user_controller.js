@@ -30,7 +30,7 @@ const userController = {
             return next(appError(400, "ValidationError", "The password length should be larger than 8.", next))
         }
 
-        password = await bcrypt.hash(rawPassword, 10)
+        password = await bcrypt.hash(rawPassword, Number(process.env.saltDegree))
 
         const newUser = await User.create({
             name,
@@ -78,9 +78,7 @@ const userController = {
         const user = await User.findOne({email}).select('+password')
         const authResult = await bcrypt.compare(password, user.password)
         
-        if(!authResult){
-            return next(appError(400, "ValidationError", "Your password is not correct.", next))
-        }else{
+        if(authResult){
             const token = await generateJwtToken(user._id)
 
             res.status(200)
@@ -97,6 +95,8 @@ const userController = {
                     },
                     message: `${user.name} Login successfully`
                 })
+        }else{
+            return next(appError(400, "ValidationError", "Your password is not correct.", next))
         }
     },
 }
