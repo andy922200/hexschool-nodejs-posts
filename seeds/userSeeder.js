@@ -11,7 +11,6 @@ const args = process.argv.slice(2);
 const upDown = args[0]
 
 db.once('open', () => {
-    console.log(upDown)
     if(upDown === 'up'){
         User.create(userArray)
             .then(() => {

@@ -20,7 +20,7 @@ const postSchema = new mongoose.Schema(
         user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
-            required: [true, 'Content 未填寫']
+            required: [true, 'UserId 未填寫']
         },
         likes: {
             type: Number,
