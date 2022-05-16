@@ -9,7 +9,13 @@
 			"name": "取得所有貼文",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authorization_token}}",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "{{base_url}}/posts?timeSort=asc&q=John",
 					"host": [
@@ -36,7 +42,13 @@
 			"name": "新增單筆貼文",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authorization_token_2}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"content\":\"Post Content John 20220505-2\",\r\n    \"image\": \"https://picsum.photos/300/200?random=1\",\r\n    \"name\": \"John\",\r\n    \"userId\": \"6274af1ad15698e2ce14685a\"\r\n}",
@@ -62,7 +74,13 @@
 			"name": "編輯單筆貼文",
 			"request": {
 				"method": "PATCH",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authorization_token_2}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"content\":\"Post ABCDEFGHIJKLM\"\r\n}",
@@ -89,7 +107,13 @@
 			"name": "刪除所有貼文",
 			"request": {
 				"method": "DELETE",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authorization_token}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "",
@@ -115,7 +139,13 @@
 			"name": "刪除單筆貼文",
 			"request": {
 				"method": "DELETE",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authorization_token_2}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "",
@@ -133,6 +163,153 @@
 					"path": [
 						"posts",
 						"625f6611a597265030a3ffd1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "使用者登入",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"hahaha@abc.com\",\r\n    \"password\":\"zaq123edcxz\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/users/sign_in",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"sign_in"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "更新使用者密碼",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authorization_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password\":\"zaq123edcxz\",\r\n    \"confirmPassword\": \"zaq123edcxz\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/users/update_password",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"update_password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "更新使用者密碼",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authorization_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Andy 20220516-1\",\r\n    \"sex\": \"female\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/users/profile",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "註冊一個新使用者",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"test@abc.com\",\r\n    \"name\": \"New User 20220516-1\",\r\n    \"password\":\"12345678\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/users/sign_up",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"sign_up"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "取得使用者個人資料",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authorization_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/users/profile",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"profile"
 					]
 				}
 			},
@@ -163,6 +340,16 @@
 		{
 			"key": "base_url",
 			"value": "https://hexschool-nodejs-posts.herokuapp.com",
+			"type": "string"
+		},
+		{
+			"key": "authorization_token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODEyZDlkZTFlYTNiYTNiODRjZGIwNiIsImlhdCI6MTY1MjY1OTM0NywiZXhwIjoxNjUzMjY0MTQ3fQ.vwEDzfDiOpUdFBm4L4qXk1qKwBwaRuKPZZh3LYNsPbQ",
+			"type": "string"
+		},
+		{
+			"key": "authorization_token_2",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzRhZjFhZDE1Njk4ZTJjZTE0Njg1YSIsImlhdCI6MTY1MjY3MDg2OSwiZXhwIjoxNjUzMjc1NjY5fQ.JAsYtrGbv5prTgMwCgtbi2j-gjABe3UcNzeKMVtRSdk",
 			"type": "string"
 		}
 	]
