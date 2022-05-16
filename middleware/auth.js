@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
-const { appError } = require('../utils/errorHandler')
+const { handleErrorAsync, appError } = require('../utils/errorHandler')
+const User = require('../model/user_model')
 
 const generateJwtToken = async function(userId=""){
     let token = ""
@@ -11,6 +12,33 @@ const generateJwtToken = async function(userId=""){
     return token
 }
 
+const isAuth = handleErrorAsync(async (req, res, next)=>{
+    let token = ""
+
+    if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
+        token = req.headers.authorization.split(' ')[1]
+    }
+
+    if(!token){
+        return next(appError(401,'Authorization Error', 'You have not logged in.', next))
+    }
+
+    const decoded = await new Promise((resolve, reject)=>{
+        jwt.verify(token, process.env.JWT_SECRET, (err, payload)=>{
+            err ? reject(err) : resolve(payload)
+        })
+    })
+    const currentUser = await User.findById(decoded.id)
+
+    if(currentUser){
+        req.user = currentUser
+        next()
+    }else{
+        return next(appError(400, 'System Error', 'The user is not existed.', next))
+    }
+})
+
 module.exports = {
+    isAuth,
     generateJwtToken
 }

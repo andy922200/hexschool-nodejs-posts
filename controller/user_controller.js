@@ -99,6 +99,85 @@ const userController = {
             return next(appError(400, "ValidationError", "Your password is not correct.", next))
         }
     },
+    updatePassword: async (req, res, next) => {
+        const {
+            password: rawPassword,
+            confirmPassword: rawConfirmPassword
+        } = req.body
+
+        let password = stringChecker(rawPassword)
+        let confirmPassword = stringChecker(rawConfirmPassword)
+
+        if (password !== confirmPassword){
+            return next(appError(400, "ValidationError", "Passwords are not matched.", next))
+        }
+
+        const newPassword = await bcrypt.hash(rawPassword, Number(process.env.saltDegree))
+        const user = await User.findByIdAndUpdate(req.user.id,{
+            password: newPassword
+        }, { new: true, runValidators: true })
+        const token = await generateJwtToken(user._id)
+
+        res.status(200)
+            .set({
+                ...resHeader
+            })
+            .json({
+                status: 'success',
+                data: {
+                    user: {
+                        name: user.name,
+                        token
+                    }
+                },
+                message: 'Update password successfully'
+            })
+    },
+    getProfile: async (req, res, next) => {
+        res.status(200)
+            .set({
+                ...resHeader
+            })
+            .json({
+                status: 'success',
+                data: {
+                    user: req.user
+                },
+                message: 'success'
+            })
+    },
+    patchProfile: async (req, res, next) => {
+        const {
+            name: rawName,
+            sex,
+        } = req.body
+
+        let name = stringChecker(rawName)
+
+        if (!name || !sex) {
+            return next(appError(400, "ValidationError", "Missing Required Values", next))
+        }
+
+        const user = await User.findByIdAndUpdate(req.user.id, {
+            name,
+            sex
+        }, { new: true, runValidators: true })
+
+        res.status(200)
+            .set({
+                ...resHeader
+            })
+            .json({
+                status: 'success',
+                data: {
+                    user: {
+                        name: user.name,
+                        sex: user.sex
+                    }
+                },
+                message: 'Update your profile successfully'
+            })
+    }
 }
 
 module.exports = userController
