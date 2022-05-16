@@ -3,6 +3,7 @@ const router = express.Router()
 const { excludeTrailingSlash } = require('../middleware/index')
 const { handleErrorAsync } = require('../utils/errorHandler')
 const postController = require('../controller/post_controller')
+const { isAuth } = require('../middleware/auth')
 
 router.get('/', 
     /**
@@ -12,6 +13,7 @@ router.get('/',
             description: "Get all posts successfully." 
         } 
     */
+    isAuth,
     handleErrorAsync(postController.getPosts)
 )
 router.post('/', 
@@ -33,6 +35,7 @@ router.post('/',
             description: "Post created successfully." 
         } 
     */
+    isAuth,
     handleErrorAsync(postController.postOneNewPost)
 )
 router.patch('/:postId', 
@@ -54,6 +57,7 @@ router.patch('/:postId',
             description: "Post updated successfully." 
         } 
     */
+    isAuth,
     handleErrorAsync(postController.updateThePost)
 )
 router.delete('/:postId', 
@@ -64,6 +68,7 @@ router.delete('/:postId',
             description: "Delete a post successfully." 
         } 
     */
+    isAuth,
     handleErrorAsync(postController.deleteOneOrAllPost)
 )
 router.delete('/', excludeTrailingSlash, 
@@ -74,6 +79,7 @@ router.delete('/', excludeTrailingSlash,
             description: "Delete all posts updated successfully." 
         } 
     */
+    isAuth,
     handleErrorAsync(postController.deleteOneOrAllPost)
 )
 
