@@ -68,7 +68,7 @@ const postController = {
                     content,
                     image,
                     name,
-                })
+                }, { new: true, runValidators: true })
                 if(result){
                     res.status(200)
                         .set({
