@@ -11,6 +11,16 @@ router.post('/sign_up',
     *   #swagger.responses[200] = { 
             description: "Register a new user successfully." 
         } 
+    *   #swagger.parameters['body'] = {
+            in: 'body',
+            type: 'object',
+            description: '資料格式',
+            schema:{
+                "$email": 'email@email.com',
+                "$name": 'name',
+                "$password": 'password'
+            }
+        }
     */
     handleErrorAsync(userController.signUp)
 )
@@ -22,6 +32,15 @@ router.post('/sign_in',
     *   #swagger.responses[200] = { 
             description: "User Login successfully." 
         } 
+    *   #swagger.parameters['body'] = {
+            in: 'body',
+            type: 'object',
+            description: '資料格式',
+            schema:{
+                "$email": 'email@email.com',
+                "$password": 'password'
+            }
+        }
     */
     handleErrorAsync(userController.signIn)
 )
@@ -33,6 +52,15 @@ router.post('/update_password',
     *   #swagger.responses[200] = { 
             description: "Update password successfully." 
         } 
+    *   #swagger.parameters['body'] = {
+            in: 'body',
+            type: 'object',
+            description: '資料格式',
+            schema:{
+                "$password": 'password',
+                "$confirmPassword": 'confirmPassword'
+            }
+        }
     */
     isAuth,
     handleErrorAsync(userController.updatePassword)
@@ -57,6 +85,15 @@ router.patch('/profile',
     *   #swagger.responses[200] = { 
             description: "success" 
         } 
+    *   #swagger.parameters['body'] = {
+            in: 'body',
+            type: 'object',
+            description: '資料格式',
+            schema:{
+                "$name": 'Name',
+                "$sex": 1
+            }
+        }
     */
     isAuth,
     handleErrorAsync(userController.patchProfile)
