@@ -8,7 +8,12 @@ const postController = {
     getPosts: async(req, res, next)=>{
         const timeSort = req.query.timeSort === "asc" ? "createdAt" : "-createdAt"
         const queryString = req.query.q !== undefined
-            ? { "content": new RegExp(req.query.q.trim()) }
+            ? {
+                $or:[
+                    { "content": new RegExp(req.query.q.trim()) },
+                    { "name": new RegExp(req.query.q.trim()) }
+                ]
+              }
             : {}
         const allPosts = await Post.find(queryString).populate({
             path: 'user',
@@ -25,12 +30,15 @@ const postController = {
             })
     },
     postOneNewPost: async (req, res, next)=>{
+        const {
+            name: rawName,
+            id: rawUserId
+        } = req.user
         const { 
             content: rawContent, 
             image, 
-            name: rawName,
-            userId: rawUserId 
         } = req.body
+
         const content = typeof rawContent === 'string' ? rawContent.trim(): ''
         const name = typeof rawName === 'string' ? rawName.trim() : ''
         const userId = typeof rawUserId === 'string' ? rawUserId : ''
@@ -57,30 +65,46 @@ const postController = {
         }
     },
     updateThePost: async (req, res, next)=>{
-        const { content: rawContent, image, name: rawName } = req.body
+        const {
+            name: rawName,
+            id: rawUserId
+        } = req.user
+        const { 
+            content: rawContent, 
+            image 
+        } = req.body
         const content = typeof rawContent === 'string' ? rawContent.trim() : ''
         const name = typeof rawName === 'string' ? rawName.trim() : ''
         const postId = req.params.postId
 
         if (content && image && name) {
             if (postId) {
-                const result = await Post.findByIdAndUpdate(postId, {
-                    content,
-                    image,
-                    name,
-                }, { new: true, runValidators: true })
-                if(result){
-                    res.status(200)
-                        .set({
-                            ...resHeader
-                        })
-                        .json({
-                            status: 'success',
-                            data: result,
-                            message: 'The post is updated successfully'
-                        })
+                const isUserPost = await Post.findOne({
+                    user: rawUserId,
+                    _id: postId
+                })
+
+                if (isUserPost){
+                    const result = await Post.findByIdAndUpdate(postId, {
+                        content,
+                        image,
+                        name,
+                    }, { new: true, runValidators: true })
+                    if (result) {
+                        res.status(200)
+                            .set({
+                                ...resHeader
+                            })
+                            .json({
+                                status: 'success',
+                                data: result,
+                                message: 'The post is updated successfully'
+                            })
+                    } else {
+                        next(appError(400, "", `The post ${postId} is not existed or updated failed.`, next))
+                    }
                 }else{
-                    next(appError(400, "", `The post ${postId} is not existed or updated failed.`, next))
+                    next(appError(400, "", `No permission or the post ${postId} is not existed.`, next))
                 }
             } else {
                 next(appError(400, "", "The post is not existed.", next))
@@ -90,20 +114,32 @@ const postController = {
         }
     },
     deleteOneOrAllPost: async (req, res, next)=>{
+        const {
+            id: rawUserId
+        } = req.user
         const postId = req.params.postId
         if(postId){
-            const result = await Post.findByIdAndDelete(postId)
-            if(result){
-                res.status(200)
-                    .set({
-                        ...resHeader
-                    })
-                    .json({
-                        status: 'success',
-                        message: `The post ${postId} is deleted successfully`
-                    })
+            const isUserPost = await Post.findOne({
+                user: rawUserId,
+                _id: postId
+            })
+
+            if (isUserPost){
+                const result = await Post.findByIdAndDelete(postId)
+                if (result) {
+                    res.status(200)
+                        .set({
+                            ...resHeader
+                        })
+                        .json({
+                            status: 'success',
+                            message: `The post ${postId} is deleted successfully`
+                        })
+                } else {
+                    next(appError(400, "", `The post ${postId} is not existed or deleted failed.`, next))
+                }
             }else{
-                next(appError(400, "",`The post ${postId} is not existed or deleted failed.`, next))
+                next(appError(400, "", `No permission or the post ${postId} is not existed.`, next))
             }
         }else{
             await Post.deleteMany({})
