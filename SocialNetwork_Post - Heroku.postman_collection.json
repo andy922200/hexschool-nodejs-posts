@@ -17,22 +17,12 @@
 					}
 				],
 				"url": {
-					"raw": "{{base_url}}/posts?timeSort=asc&q=John",
+					"raw": "{{base_url}}/posts",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"posts"
-					],
-					"query": [
-						{
-							"key": "timeSort",
-							"value": "asc"
-						},
-						{
-							"key": "q",
-							"value": "John"
-						}
 					]
 				}
 			},
@@ -45,13 +35,13 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer {{authorization_token_2}}",
+						"value": "Bearer {{authorization_token}}",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"content\":\"Post Content John 20220505-2\",\r\n    \"image\": \"https://picsum.photos/300/200?random=1\",\r\n    \"name\": \"John\",\r\n    \"userId\": \"6274af1ad15698e2ce14685a\"\r\n}",
+					"raw": "{\r\n    \"content\":\"Post Content John 20220519-1\",\r\n    \"image\": \"https://picsum.photos/300/200?random=1\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -83,7 +73,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"content\":\"Post ABCDEFGHIJKLM\"\r\n}",
+					"raw": "{\r\n    \"content\":\"Post Content 20220519-345\",\r\n    \"image\": \"https://picsum.photos/300/200?random=100\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -91,13 +81,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/posts/625f6611a597265030a3ffd1",
+					"raw": "{{base_url}}/posts/628615ddefd7afc161d7cd47",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"posts",
-						"625f6611a597265030a3ffd1"
+						"628615ddefd7afc161d7cd47"
 					]
 				}
 			},
@@ -175,7 +165,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"hahaha@abc.com\",\r\n    \"password\":\"zaq123edcxz\"\r\n}",
+					"raw": "{\r\n    \"email\": \"AdaWang@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -344,12 +334,12 @@
 		},
 		{
 			"key": "authorization_token",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODEyZDlkZTFlYTNiYTNiODRjZGIwNiIsImlhdCI6MTY1MjY1OTM0NywiZXhwIjoxNjUzMjY0MTQ3fQ.vwEDzfDiOpUdFBm4L4qXk1qKwBwaRuKPZZh3LYNsPbQ",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzRhZjFhZDE1Njk4ZTJjZTE0Njg1YSIsImlhdCI6MTY1Mjk1NDM0MiwiZXhwIjoxNjUzNTU5MTQyfQ.019-J240N_c6zrxBqUU2cZ5_nKWc6mnh3EiQgmx-H2Y",
 			"type": "string"
 		},
 		{
 			"key": "authorization_token_2",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzRhZjFhZDE1Njk4ZTJjZTE0Njg1YSIsImlhdCI6MTY1MjY3MDg2OSwiZXhwIjoxNjUzMjc1NjY5fQ.JAsYtrGbv5prTgMwCgtbi2j-gjABe3UcNzeKMVtRSdk",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzRhZjFhZDE1Njk4ZTJjZTE0Njg1YyIsImlhdCI6MTY1Mjk1NDc0NiwiZXhwIjoxNjUzNTU5NTQ2fQ.bRcOLNcIFMPh978L9nEmERy-j8_cnLmvdEMBPI8JLnU",
 			"type": "string"
 		}
 	]
