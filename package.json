@@ -16,10 +16,14 @@
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "image-size": "^1.0.1",
+    "imgur": "^2.2.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.0",
+    "multer": "^1.4.4",
     "swagger-autogen": "^2.5.10",
     "swagger-ui-express": "^4.3.0",
+    "tslib": "^2.4.0",
     "validator": "^13.7.0"
   },
   "engines": {
