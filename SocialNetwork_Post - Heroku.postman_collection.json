@@ -106,7 +106,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authorization_token}}",
+								"value": "Bearer {{authorization_token_2}}",
 								"type": "text"
 							}
 						],
@@ -315,6 +315,44 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Upload",
+			"item": [
+				{
+					"name": "上傳一張圖片",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authorization_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "img1",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/upload",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"upload"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
@@ -345,12 +383,12 @@
 		},
 		{
 			"key": "authorization_token",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzRhZjFhZDE1Njk4ZTJjZTE0Njg1YSIsImlhdCI6MTY1Mjk1NDM0MiwiZXhwIjoxNjUzNTU5MTQyfQ.019-J240N_c6zrxBqUU2cZ5_nKWc6mnh3EiQgmx-H2Y",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzRhZjFhZDE1Njk4ZTJjZTE0Njg1YyIsImlhdCI6MTY1MzkzNjA5MSwiZXhwIjoxNjU0NTQwODkxfQ.6jy9dMjC0QK1jz2powRX3FFpIsxIWd88ttRm57Odxr0",
 			"type": "string"
 		},
 		{
 			"key": "authorization_token_2",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzRhZjFhZDE1Njk4ZTJjZTE0Njg1YyIsImlhdCI6MTY1Mjk1NDc0NiwiZXhwIjoxNjUzNTU5NTQ2fQ.bRcOLNcIFMPh978L9nEmERy-j8_cnLmvdEMBPI8JLnU",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzRhZjFhZDE1Njk4ZTJjZTE0Njg1YSIsImlhdCI6MTY1MzkzNjQwMSwiZXhwIjoxNjU0NTQxMjAxfQ.l-hMEMy_e7aahS43XkhuzybX6LMgW94HPkVuM7tdseY",
 			"type": "string"
 		}
 	]
